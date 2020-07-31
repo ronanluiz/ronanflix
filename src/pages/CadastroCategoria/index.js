@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import PageDefault from '../../components/PageDefault';
 import FormField from '../../components/FormField';
+import Button from '../../components/Button';
+import './CadastroCategoria.css';
 
 function CadastroCategoria() {
   const valoresIniciais = {
@@ -66,9 +68,9 @@ function CadastroCategoria() {
           onChange={handleChange}
         />
 
-        <button type="submit">
+        <Button type="submit" className="ButtonSubmit">
           Cadastrar
-        </button>
+        </Button>
 
       </form>
 
