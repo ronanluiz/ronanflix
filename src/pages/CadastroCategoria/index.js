@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import PageDefault from '../../components/PageDefault';
 import FormField from '../../components/FormField';
@@ -27,6 +27,22 @@ function CadastroCategoria() {
       event.target.value,
     );
   }
+
+  useEffect(() => {
+    const URL_HOST_API = window.location.pathname.includes('localhost')
+      ? 'http://localhost:3002'
+      : 'https://api-ronanflix.herokuapp.com';
+    const URL_API_CATEGORIAS = `${URL_HOST_API}/categorias`;
+
+    fetch(URL_API_CATEGORIAS)
+      .then(async (respostaServidor) => {
+        const resposta = await respostaServidor.json();
+        setCategorias([
+          ...resposta,
+        ]);
+      });
+  },
+  []);
 
   return (
     <PageDefault>
@@ -77,7 +93,7 @@ function CadastroCategoria() {
       <ul>
         {categoriasCadastradas.map((categoria) => (
           <li key={`${categoria.id}`}>
-            {categoria.nome}
+            {categoria.titulo}
           </li>
         ))}
       </ul>
