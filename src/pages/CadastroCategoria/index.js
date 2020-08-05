@@ -4,32 +4,23 @@ import PageDefault from '../../components/PageDefault';
 import FormField from '../../components/FormField';
 import Button from '../../components/Button';
 import './CadastroCategoria.css';
+import useFormulario from '../../hooks/useFormulario';
 
 function CadastroCategoria() {
   const valoresIniciais = {
-    nome: '',
+    titulo: '',
     descricao: '',
     cor: '',
   };
   const [categoriasCadastradas, setCategorias] = useState([]);
-  const [cadastro, setCadastro] = useState(valoresIniciais);
-
-  function setCampoCadastro(chave, valor) {
-    setCadastro({
-      ...cadastro,
-      [chave]: valor,
-    });
-  }
-
-  function handleChange(event) {
-    setCampoCadastro(
-      event.target.getAttribute('name'),
-      event.target.value,
-    );
-  }
+  const {
+    valoresFormulario,
+    handleAlteracaoFormulario,
+    limparFormulario,
+  } = useFormulario(valoresIniciais);
 
   useEffect(() => {
-    const URL_HOST_API = window.location.pathname.includes('localhost')
+    const URL_HOST_API = window.location.hostname.includes('localhost')
       ? 'http://localhost:3002'
       : 'https://api-ronanflix.herokuapp.com';
     const URL_API_CATEGORIAS = `${URL_HOST_API}/categorias`;
@@ -53,35 +44,35 @@ function CadastroCategoria() {
 
         setCategorias([
           ...categoriasCadastradas,
-          cadastro,
+          valoresFormulario,
         ]);
 
-        setCampoCadastro(valoresIniciais);
+        limparFormulario();
       }}
       >
 
         <FormField
           label="Nome da Categoria"
           type="text"
-          name="nome"
-          value={cadastro.nome}
-          onChange={handleChange}
+          name="titulo"
+          value={valoresFormulario.titulo}
+          onChange={handleAlteracaoFormulario}
         />
 
         <FormField
           label="Descrição"
           type="textarea"
           name="descricao"
-          value={cadastro.descricao}
-          onChange={handleChange}
+          value={valoresFormulario.descricao}
+          onChange={handleAlteracaoFormulario}
         />
 
         <FormField
           label="Cor"
           type="color"
           name="cor"
-          value={cadastro.cor}
-          onChange={handleChange}
+          value={valoresFormulario.cor}
+          onChange={handleAlteracaoFormulario}
         />
 
         <Button type="submit" className="ButtonSubmit">
